@@ -78,23 +78,7 @@ export default function Home() {
               <h1 className="text-3xl md:text-4xl font-bold tracking-tight">DarkDynastyK9s</h1>
               <p className="text-gray-300 mt-2 text-lg">Premium Puppies – Vaccinated, Insured, Healthy</p>
             </div>
-            <div className="flex flex-col md:flex-row gap-4">
-              <Button className="bg-secondary hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200">
-                <Phone className="w-4 h-4 mr-2" />
-                Contact Us
-              </Button>
-              <Button className="bg-accent hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200">
-                <Heart className="w-4 h-4 mr-2" />
-                Favorites
-              </Button>
-              <Button 
-                onClick={() => window.location.href = '/admin'}
-                className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
-              >
-                <Edit2 className="w-4 h-4 mr-2" />
-                Admin
-              </Button>
-            </div>
+
           </div>
         </div>
       </header>
@@ -197,6 +181,14 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Red Button */}
+      <div className="flex justify-center py-8 bg-gray-50">
+        <Button 
+          onClick={() => window.location.href = '/admin'}
+          className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-lg transition-colors duration-200"
+        />
+      </div>
 
       {/* Footer */}
       <footer className="bg-gray-800 text-white py-8">
