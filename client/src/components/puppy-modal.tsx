@@ -128,6 +128,7 @@ export default function PuppyModal({ puppy, isOpen, onClose }: PuppyModalProps) 
               <Button
                 onClick={handleAdopt}
                 className="bg-green-500 hover:bg-green-600 text-white py-4 px-8 rounded-lg font-medium transition-colors duration-200 text-lg"
+                data-testid={`button-adopt-${puppy.name.replace(/\s+/g, '-').toLowerCase()}`}
               >
                 <Heart className="w-5 h-5 mr-2" />
                 Adopt {puppy.name}
@@ -136,6 +137,13 @@ export default function PuppyModal({ puppy, isOpen, onClose }: PuppyModalProps) 
           </div>
         </div>
       </DialogContent>
+      
+      {/* Adopt Dialog */}
+      <AdoptDialog
+        puppy={puppy}
+        isOpen={isAdoptDialogOpen}
+        onClose={() => setIsAdoptDialogOpen(false)}
+      />
     </Dialog>
   );
 }

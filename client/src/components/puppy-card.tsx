@@ -12,10 +12,6 @@ interface PuppyCardProps {
 export default function PuppyCard({ puppy, onViewDetails }: PuppyCardProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const handleInquiry = () => {
-    // Handle inquiry logic here
-    alert(`Inquiry submitted for ${puppy.name}!`);
-  };
 
   return (
     <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
@@ -64,18 +60,13 @@ export default function PuppyCard({ puppy, onViewDetails }: PuppyCardProps) {
           </div>
         </div>
         
-        <div className="flex gap-3">
+        <div className="flex">
           <Button 
             onClick={onViewDetails}
-            className="flex-1 bg-secondary hover:bg-blue-600 text-white py-3 px-4 rounded-lg font-medium transition-colors duration-200"
+            className="w-full bg-secondary hover:bg-blue-600 text-white py-3 px-4 rounded-lg font-medium transition-colors duration-200"
+            data-testid={`button-view-details-${puppy.name.replace(/\s+/g, '-').toLowerCase()}`}
           >
-            {puppy.images.length > 2 ? "View Gallery" : "View Details"}
-          </Button>
-          <Button 
-            onClick={handleInquiry}
-            className="flex-1 bg-green-500 hover:bg-green-600 text-white py-3 px-4 rounded-lg font-medium transition-colors duration-200"
-          >
-            Inquire Now
+            {puppy.images.length > 2 ? "View Gallery & Adopt" : "View Details & Adopt"}
           </Button>
         </div>
       </div>
