@@ -21,39 +21,22 @@ export class MemStorage implements IStorage {
   }
 
   private initializePuppies() {
-    // Initialize with the 4 puppies as specified by user requirements
+    // Initialize with the 3 puppies as specified by user requirements
     const puppyData: InsertPuppy[] = [
       {
-        name: "Thunder",
+        name: "Thunder & Storm Twins",
         breed: "American Pit Bull Terrier",
         age: "8 weeks old",
-        weight: "12 lbs",
-        gender: "Male",
-        price: 3200,
-        color: "Gray with White",
-        description: "Beautiful gray pitbull puppy with excellent temperament. Fully vaccinated and health guaranteed.",
-        images: [
-          "/attached_assets/WhatsApp Image 2025-08-19 at 10.42.40_7378bbb8_1755596585832.jpg",
-          "/attached_assets/WhatsApp Image 2025-08-19 at 10.44.51_be685c89_1755596711580.jpg"
-        ],
-        isAvailable: true,
-        healthStatus: "100% Healthy",
-        isVaccinated: true,
-        isInsured: true,
-        freeDelivery: true,
-      },
-      {
-        name: "Storm",
-        breed: "American Pit Bull Terrier",
-        age: "8 weeks old",
-        weight: "11 lbs",
-        gender: "Female",
+        weight: "10-12 lbs",
+        gender: "Male & Female",
         price: 3000,
-        color: "Brown and White",
-        description: "Sweet female puppy with beautiful markings. Great with children and other pets.",
+        color: "Brindle and Black with White",
+        description: "Beautiful twin puppies with excellent temperament. Fully vaccinated and health guaranteed. Two adorable puppies available - each puppy is priced individually.",
         images: [
-          "/attached_assets/WhatsApp Image 2025-08-19 at 10.44.56_baf1be46_1755596718671.jpg",
-          "/attached_assets/WhatsApp Image 2025-08-19 at 10.45.01_9951a6ab_1755596714454.jpg"
+          "/attached_assets/WhatsApp Image 2025-08-19 at 10.36.29_a97b3215_1755596301642.jpg",
+          "/attached_assets/WhatsApp Image 2025-08-19 at 10.40.37_6e57a7e1_1755596454818.jpg",
+          "/attached_assets/WhatsApp Image 2025-08-19 at 10.40.44_bad6bad0_1755596456728.jpg",
+          "/attached_assets/WhatsApp Image 2025-08-19 at 10.40.51_77057677_1755596460289.jpg"
         ],
         isAvailable: true,
         healthStatus: "100% Healthy",
@@ -68,16 +51,15 @@ export class MemStorage implements IStorage {
         weight: "13 lbs",
         gender: "Male",
         price: 3500,
-        color: "Brown and White",
-        description: "Energetic male puppy with exceptional bloodlines. Perfect for active families.",
+        color: "Blue/Gray with White",
+        description: "Energetic male puppy with exceptional bloodlines. Perfect for active families. This handsome boy has amazing coloring and temperament.",
         images: [
-          "/attached_assets/WhatsApp Image 2025-08-19 at 10.44.51_be685c89_1755596711580.jpg",
-          "/attached_assets/WhatsApp Image 2025-08-19 at 10.44.56_baf1be46_1755596718671.jpg",
-          "/attached_assets/WhatsApp Image 2025-08-19 at 10.45.01_9951a6ab_1755596714454.jpg",
-          "/attached_assets/WhatsApp Image 2025-08-19 at 10.45.05_f36728b0_1755596721270.jpg",
-          "/attached_assets/WhatsApp Image 2025-08-19 at 10.42.40_7378bbb8_1755596585832.jpg",
-          "/attached_assets/WhatsApp Image 2025-08-19 at 10.44.51_be685c89_1755596711580.jpg",
-          "/attached_assets/WhatsApp Image 2025-08-19 at 10.44.56_baf1be46_1755596718671.jpg"
+          "/attached_assets/WhatsApp Image 2025-08-19 at 10.41.55_6b139999_1755596569113.jpg",
+          "/attached_assets/WhatsApp Image 2025-08-19 at 10.42.13_26aa9a3d_1755596574424.jpg",
+          "/attached_assets/WhatsApp Image 2025-08-19 at 10.42.18_68c77f53_1755596576549.jpg",
+          "/attached_assets/WhatsApp Image 2025-08-19 at 10.42.18_be5e52b7_1755596581297.jpg",
+          "/attached_assets/WhatsApp Image 2025-08-19 at 10.42.25_21cc9215_1755596583565.jpg",
+          "/attached_assets/WhatsApp Image 2025-08-19 at 10.42.40_7378bbb8_1755596585832.jpg"
         ],
         isAvailable: true,
         healthStatus: "100% Healthy",
@@ -93,12 +75,12 @@ export class MemStorage implements IStorage {
         gender: "Female",
         price: 2800,
         color: "Brown and White",
-        description: "Gentle female puppy with calm temperament. Perfect for families with young children.",
+        description: "Gentle female puppy with calm temperament. Perfect for families with young children. Beautiful markings and sweet personality.",
         images: [
-          "/attached_assets/WhatsApp Image 2025-08-19 at 10.45.05_f36728b0_1755596721270.jpg",
-          "/attached_assets/WhatsApp Image 2025-08-19 at 10.42.40_7378bbb8_1755596585832.jpg",
           "/attached_assets/WhatsApp Image 2025-08-19 at 10.44.51_be685c89_1755596711580.jpg",
-          "/attached_assets/WhatsApp Image 2025-08-19 at 10.44.56_baf1be46_1755596718671.jpg"
+          "/attached_assets/WhatsApp Image 2025-08-19 at 10.44.56_baf1be46_1755596718671.jpg",
+          "/attached_assets/WhatsApp Image 2025-08-19 at 10.45.01_9951a6ab_1755596714454.jpg",
+          "/attached_assets/WhatsApp Image 2025-08-19 at 10.45.05_f36728b0_1755596721270.jpg"
         ],
         isAvailable: true,
         healthStatus: "100% Healthy",
@@ -110,7 +92,11 @@ export class MemStorage implements IStorage {
 
     puppyData.forEach(puppy => {
       const id = randomUUID();
-      const fullPuppy: Puppy = { ...puppy, id };
+      const fullPuppy: Puppy = { 
+        ...puppy, 
+        id,
+        description: puppy.description || null
+      };
       this.puppies.set(id, fullPuppy);
     });
   }
@@ -142,7 +128,11 @@ export class MemStorage implements IStorage {
 
   async createPuppy(insertPuppy: InsertPuppy): Promise<Puppy> {
     const id = randomUUID();
-    const puppy: Puppy = { ...insertPuppy, id };
+    const puppy: Puppy = { 
+      ...insertPuppy, 
+      id,
+      description: insertPuppy.description || null
+    };
     this.puppies.set(id, puppy);
     return puppy;
   }

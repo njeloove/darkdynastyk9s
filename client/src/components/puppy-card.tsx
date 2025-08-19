@@ -30,7 +30,7 @@ export default function PuppyCard({ puppy, onViewDetails }: PuppyCardProps) {
         
         {/* Price Badge */}
         <div className="absolute top-4 right-4 bg-accent text-white px-3 py-1 rounded-full font-semibold text-sm">
-          ${puppy.price.toLocaleString()}
+          {puppy.name.includes('Twins') ? `$${puppy.price.toLocaleString()} each` : `$${puppy.price.toLocaleString()}`}
         </div>
         
         {/* Photo Count Badge */}
