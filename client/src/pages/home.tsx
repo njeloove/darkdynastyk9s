@@ -177,6 +177,30 @@ export default function Home() {
                 <Shield className="w-4 h-4" />
                 Message us on Signal
               </Button>
+
+              <Button 
+                onClick={() => window.open('https://www.instagram.com/darkdynastyk9ss?igsh=MTFma3o0NXQ4ODlibQ==', '_blank')}
+                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2"
+              >
+                <Instagram className="w-4 h-4" />
+                Contact us on Instagram
+              </Button>
+
+              <Button 
+                onClick={() => window.open('https://www.facebook.com/profile.php?id=61579619101749', '_blank')}
+                className="bg-blue-700 hover:bg-blue-800 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2"
+              >
+                <Facebook className="w-4 h-4" />
+                Contact us on Facebook
+              </Button>
+
+              <Button 
+                onClick={() => window.open('https://facebook.com/groups/1313769300368660/', '_blank')}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2"
+              >
+                <Facebook className="w-4 h-4" />
+                View our Facebook Group
+              </Button>
             </div>
           </div>
         </div>

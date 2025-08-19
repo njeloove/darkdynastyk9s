@@ -1,6 +1,8 @@
-import { X, Calendar, Weight, Palette, Shield, Syringe, Tag, Truck, Phone, Heart, MessageCircle, Send } from "lucide-react";
+import { useState } from "react";
+import { X, Calendar, Weight, Palette, Shield, Syringe, Tag, Truck, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
+import AdoptDialog from "./adopt-dialog";
 import type { Puppy } from "@shared/schema";
 
 interface PuppyModalProps {
@@ -10,12 +12,10 @@ interface PuppyModalProps {
 }
 
 export default function PuppyModal({ puppy, isOpen, onClose }: PuppyModalProps) {
-  const handleReserve = () => {
-    alert(`Reservation request submitted for ${puppy.name}!`);
-  };
+  const [isAdoptDialogOpen, setIsAdoptDialogOpen] = useState(false);
 
-  const handleCall = () => {
-    window.location.href = "tel:+15551234647";
+  const handleAdopt = () => {
+    setIsAdoptDialogOpen(true);
   };
 
   return (
@@ -124,41 +124,13 @@ export default function PuppyModal({ puppy, isOpen, onClose }: PuppyModalProps) 
                 </div>
               )}
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+            <div className="flex justify-center">
               <Button
-                onClick={handleReserve}
-                className="bg-green-500 hover:bg-green-600 text-white py-3 px-4 rounded-lg font-medium transition-colors duration-200"
+                onClick={handleAdopt}
+                className="bg-green-500 hover:bg-green-600 text-white py-4 px-8 rounded-lg font-medium transition-colors duration-200 text-lg"
               >
-                <Heart className="w-4 h-4 mr-2" />
-                Reserve {puppy.name}
-              </Button>
-              <Button
-                onClick={handleCall}
-                className="bg-secondary hover:bg-blue-600 text-white py-3 px-4 rounded-lg font-medium transition-colors duration-200"
-              >
-                <Phone className="w-4 h-4 mr-2" />
-                Call Us
-              </Button>
-              <Button
-                onClick={() => window.open('https://www.tiktok.com/@darkdynastyk?_r=1&_d=eik3l3bfe61cff&sec_uid=MS4wLjABAAAA5DqQ1W79BMvZ_sJ9o_yWH2C7f23oZoRYkUP2-_Sx11AOZFYjQyxvQSvgyjcUpwVd&share_author_id=7494609065629959223&sharer_language=en&source=h5_m&u_code=ejmi82mb8ke5b7&timestamp=1755596981&user_id=7494609065629959223&sec_user_id=MS4wLjABAAAA5DqQ1W79BMvZ_sJ9o_yWH2C7f23oZoRYkUP2-_Sx11AOZFYjQyxvQSvgyjcUpwVd&item_author_type=1&utm_source=copy&utm_campaign=client_share&utm_medium=android&share_iid=7529506715139688198&share_link_id=4465d2a5-6ba9-43e7-be33-4922d3a8198a&share_app_id=1233&ugbiz_name=ACCOUNT&ug_btm=b8727%2Cb7360&social_share_type=5&enable_checksum=1', '_blank')}
-                className="bg-black hover:bg-gray-800 text-white py-3 px-4 rounded-lg font-medium transition-colors duration-200"
-              >
-                <MessageCircle className="w-4 h-4 mr-2" />
-                TikTok
-              </Button>
-              <Button
-                onClick={() => window.open('https://t.me/darkdynastyk9ss', '_blank')}
-                className="bg-blue-500 hover:bg-blue-600 text-white py-3 px-4 rounded-lg font-medium transition-colors duration-200"
-              >
-                <Send className="w-4 h-4 mr-2" />
-                Telegram
-              </Button>
-              <Button
-                onClick={() => window.open('https://signal.me/#eu/ic4zw8Vd8ET15kK6BzCU0KYzsdBDNtXoIWE--BxjhxHoTkj7LxVOCLl5OPa_SC1F', '_blank')}
-                className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-medium transition-colors duration-200"
-              >
-                <Shield className="w-4 h-4 mr-2" />
-                Signal
+                <Heart className="w-5 h-5 mr-2" />
+                Adopt {puppy.name}
               </Button>
             </div>
           </div>
