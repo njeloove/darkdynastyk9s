@@ -141,6 +141,24 @@ export default function Home() {
             {/* Social Media Contact Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button 
+                onClick={() => window.open('https://www.tiktok.com/@darkdynastyk?_r=1&_d=eik3l3bfe61cff&sec_uid=MS4wLjABAAAA5DqQ1W79BMvZ_sJ9o_yWH2C7f23oZoRYkUP2-_Sx11AOZFYjQyxvQSvgyjcUpwVd&share_author_id=7494609065629959223&sharer_language=en&source=h5_m&u_code=ejmi82mb8ke5b7&timestamp=1755596981&user_id=7494609065629959223&sec_user_id=MS4wLjABAAAA5DqQ1W79BMvZ_sJ9o_yWH2C7f23oZoRYkUP2-_Sx11AOZFYjQyxvQSvgyjcUpwVd&item_author_type=1&utm_source=copy&utm_campaign=client_share&utm_medium=android&share_iid=7529506715139688198&share_link_id=4465d2a5-6ba9-43e7-be33-4922d3a8198a&share_app_id=1233&ugbiz_name=ACCOUNT&ug_btm=b8727%2Cb7360&social_share_type=5&enable_checksum=1', '_blank')}
+                className="bg-black hover:bg-gray-800 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2"
+                data-testid="button-contact-tiktok"
+              >
+                <MessageCircle className="w-4 h-4" />
+                Message us on TikTok
+              </Button>
+              
+              <Button 
+                onClick={() => window.open('https://t.me/darkdynastyk9ss', '_blank')}
+                className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2"
+                data-testid="button-contact-telegram"
+              >
+                <Send className="w-4 h-4" />
+                Message us on Telegram
+              </Button>
+
+              <Button 
                 onClick={() => window.open('https://www.instagram.com/darkdynastyk9ss?igsh=MTFma3o0NXQ4ODlibQ==', '_blank')}
                 className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2"
                 data-testid="button-contact-instagram"
@@ -213,6 +231,22 @@ export default function Home() {
                   </a>
                 </div>
                 <div className="space-y-2 text-sm">
+                  <a 
+                    href="https://www.tiktok.com/@darkdynastyk?_r=1&_d=eik3l3bfe61cff&sec_uid=MS4wLjABAAAA5DqQ1W79BMvZ_sJ9o_yWH2C7f23oZoRYkUP2-_Sx11AOZFYjQyxvQSvgyjcUpwVd&share_author_id=7494609065629959223&sharer_language=en&source=h5_m&u_code=ejmi82mb8ke5b7&timestamp=1755596981&user_id=7494609065629959223&sec_user_id=MS4wLjABAAAA5DqQ1W79BMvZ_sJ9o_yWH2C7f23oZoRYkUP2-_Sx11AOZFYjQyxvQSvgyjcUpwVd&item_author_type=1&utm_source=copy&utm_campaign=client_share&utm_medium=android&share_iid=7529506715139688198&share_link_id=4465d2a5-6ba9-43e7-be33-4922d3a8198a&share_app_id=1233&ugbiz_name=ACCOUNT&ug_btm=b8727%2Cb7360&social_share_type=5&enable_checksum=1"
+                    target="_blank"
+                    className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors duration-200"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    TikTok: @darkdynastyk
+                  </a>
+                  <a 
+                    href="https://t.me/darkdynastyk9ss"
+                    target="_blank"
+                    className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors duration-200"
+                  >
+                    <Send className="w-4 h-4" />
+                    Telegram: @darkdynastyk9ss
+                  </a>
                   <a 
                     href="https://www.instagram.com/darkdynastyk9ss?igsh=MTFma3o0NXQ4ODlibQ=="
                     target="_blank"
