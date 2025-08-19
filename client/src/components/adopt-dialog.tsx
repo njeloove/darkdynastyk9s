@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { MessageCircle, Send, Instagram, Facebook } from "lucide-react";
+import { MessageCircle, Send, Shield, Instagram, Facebook } from "lucide-react";
 import type { Puppy } from "@shared/schema";
 
 interface AdoptDialogProps {
@@ -93,6 +93,18 @@ Please let me know the next steps for adoption. Thank you!`;
             >
               <Send className="w-4 h-4" />
               Contact via Telegram
+            </Button>
+
+            <Button
+              onClick={() => copyMessageAndRedirect(
+                "Signal",
+                "https://signal.me/#eu/ic4zw8Vd8ET15kK6BzCU0KYzsdBDNtXoIWE--BxjhxHoTkj7LxVOCLl5OPa_SC1F"
+              )}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2"
+              data-testid="button-adopt-signal"
+            >
+              <Shield className="w-4 h-4" />
+              Contact via Signal
             </Button>
 
             <Button

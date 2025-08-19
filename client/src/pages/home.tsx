@@ -137,6 +137,12 @@ export default function Home() {
           </p>
           
           <div className="flex flex-col gap-6">
+            <div className="flex justify-center">
+              <div className="flex items-center gap-3">
+                <Inbox className="text-accent w-5 h-5" />
+                <span className="text-lg">darkdynastyk9sss@gmail.com</span>
+              </div>
+            </div>
             
             {/* Social Media Contact Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -156,6 +162,15 @@ export default function Home() {
               >
                 <Send className="w-4 h-4" />
                 Message us on Telegram
+              </Button>
+              
+              <Button 
+                onClick={() => window.open('https://signal.me/#eu/ic4zw8Vd8ET15kK6BzCU0KYzsdBDNtXoIWE--BxjhxHoTkj7LxVOCLl5OPa_SC1F', '_blank')}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2"
+                data-testid="button-contact-signal"
+              >
+                <Shield className="w-4 h-4" />
+                Message us on Signal
               </Button>
 
               <Button 
@@ -178,7 +193,7 @@ export default function Home() {
 
               <Button 
                 onClick={() => window.open('https://facebook.com/groups/1313769300368660/', '_blank')}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2"
+                className="bg-blue-800 hover:bg-blue-900 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2"
                 data-testid="button-facebook-group"
               >
                 <Facebook className="w-4 h-4" />
@@ -246,6 +261,21 @@ export default function Home() {
                   >
                     <Send className="w-4 h-4" />
                     Telegram: @darkdynastyk9ss
+                  </a>
+                  <a 
+                    href="https://signal.me/#eu/ic4zw8Vd8ET15kK6BzCU0KYzsdBDNtXoIWE--BxjhxHoTkj7LxVOCLl5OPa_SC1F"
+                    target="_blank"
+                    className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors duration-200"
+                  >
+                    <Shield className="w-4 h-4" />
+                    Signal Chat
+                  </a>
+                  <a 
+                    href="mailto:darkdynastyk9sss@gmail.com"
+                    className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors duration-200"
+                  >
+                    <Inbox className="w-4 h-4" />
+                    Email: darkdynastyk9sss@gmail.com
                   </a>
                   <a 
                     href="https://www.instagram.com/darkdynastyk9ss?igsh=MTFma3o0NXQ4ODlibQ=="
