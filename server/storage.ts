@@ -8,6 +8,8 @@ export interface IStorage {
   getAllPuppies(): Promise<Puppy[]>;
   getPuppy(id: string): Promise<Puppy | undefined>;
   createPuppy(puppy: InsertPuppy): Promise<Puppy>;
+  updatePuppy(id: string, puppy: Partial<Puppy>): Promise<Puppy>;
+  deletePuppy(id: string): Promise<void>;
 }
 
 export class MemStorage implements IStorage {
@@ -95,7 +97,12 @@ export class MemStorage implements IStorage {
       const fullPuppy: Puppy = { 
         ...puppy, 
         id,
-        description: puppy.description || null
+        description: puppy.description || null,
+        isAvailable: puppy.isAvailable ?? true,
+        healthStatus: puppy.healthStatus ?? "100% Healthy",
+        isVaccinated: puppy.isVaccinated ?? true,
+        isInsured: puppy.isInsured ?? true,
+        freeDelivery: puppy.freeDelivery ?? true,
       };
       this.puppies.set(id, fullPuppy);
     });
@@ -131,10 +138,37 @@ export class MemStorage implements IStorage {
     const puppy: Puppy = { 
       ...insertPuppy, 
       id,
-      description: insertPuppy.description || null
+      description: insertPuppy.description || null,
+      isAvailable: insertPuppy.isAvailable ?? true,
+      healthStatus: insertPuppy.healthStatus ?? "100% Healthy",
+      isVaccinated: insertPuppy.isVaccinated ?? true,
+      isInsured: insertPuppy.isInsured ?? true,
+      freeDelivery: insertPuppy.freeDelivery ?? true,
     };
     this.puppies.set(id, puppy);
     return puppy;
+  }
+
+  async updatePuppy(id: string, updateData: Partial<Puppy>): Promise<Puppy> {
+    const existingPuppy = this.puppies.get(id);
+    if (!existingPuppy) {
+      throw new Error("Puppy not found");
+    }
+    const updatedPuppy: Puppy = { 
+      ...existingPuppy, 
+      ...updateData,
+      id,
+      description: updateData.description !== undefined ? updateData.description : existingPuppy.description
+    };
+    this.puppies.set(id, updatedPuppy);
+    return updatedPuppy;
+  }
+
+  async deletePuppy(id: string): Promise<void> {
+    const deleted = this.puppies.delete(id);
+    if (!deleted) {
+      throw new Error("Puppy not found");
+    }
   }
 }
 

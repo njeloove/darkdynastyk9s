@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { Phone, Heart, Shield, Syringe, Truck, Tag, AlertCircle, MapPin, Inbox, Facebook, Instagram, Youtube, MessageCircle, Send } from "lucide-react";
+import { Phone, Heart, Shield, Syringe, Truck, Tag, AlertCircle, MapPin, Inbox, Facebook, Instagram, Youtube, MessageCircle, Send, Edit2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -86,6 +86,13 @@ export default function Home() {
               <Button className="bg-accent hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200">
                 <Heart className="w-4 h-4 mr-2" />
                 Favorites
+              </Button>
+              <Button 
+                onClick={() => window.location.href = '/admin'}
+                className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+              >
+                <Edit2 className="w-4 h-4 mr-2" />
+                Admin
               </Button>
             </div>
           </div>
