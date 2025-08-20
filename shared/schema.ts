@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, integer, boolean } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, integer, boolean, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -27,3 +27,21 @@ export const insertPuppySchema = createInsertSchema(puppies).omit({
 
 export type InsertPuppy = z.infer<typeof insertPuppySchema>;
 export type Puppy = typeof puppies.$inferSelect;
+
+// Visitor tracking table
+export const visitors = pgTable("visitors", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  ipAddress: text("ip_address").notNull(),
+  userAgent: text("user_agent"),
+  country: text("country"),
+  city: text("city"),
+  visitTime: timestamp("visit_time").defaultNow().notNull(),
+  pageVisited: text("page_visited").notNull().default('/'),
+});
+
+export const insertVisitorSchema = createInsertSchema(visitors).omit({
+  id: true,
+});
+
+export type InsertVisitor = z.infer<typeof insertVisitorSchema>;
+export type Visitor = typeof visitors.$inferSelect;

@@ -1,4 +1,4 @@
-import { type Puppy, type InsertPuppy } from "@shared/schema";
+import { type Puppy, type InsertPuppy, type Visitor, type InsertVisitor } from "@shared/schema";
 import { randomUUID } from "crypto";
 
 export interface IStorage {
@@ -10,15 +10,21 @@ export interface IStorage {
   createPuppy(puppy: InsertPuppy): Promise<Puppy>;
   updatePuppy(id: string, puppy: Partial<Puppy>): Promise<Puppy>;
   deletePuppy(id: string): Promise<void>;
+  // Visitor tracking methods
+  createVisitor(visitor: InsertVisitor): Promise<Visitor>;
+  getAllVisitors(): Promise<Visitor[]>;
+  deleteVisitor(id: string): Promise<void>;
 }
 
 export class MemStorage implements IStorage {
   private users: Map<string, any>;
   private puppies: Map<string, Puppy>;
+  private visitors: Map<string, Visitor>;
 
   constructor() {
     this.users = new Map();
     this.puppies = new Map();
+    this.visitors = new Map();
     this.initializePuppies();
   }
 
@@ -170,6 +176,107 @@ export class MemStorage implements IStorage {
       throw new Error("Puppy not found");
     }
   }
+
+  // Visitor tracking methods
+  async createVisitor(insertVisitor: InsertVisitor): Promise<Visitor> {
+    const id = randomUUID();
+    const visitor: Visitor = { 
+      id,
+      ipAddress: insertVisitor.ipAddress,
+      userAgent: insertVisitor.userAgent || null,
+      country: insertVisitor.country || null,
+      city: insertVisitor.city || null,
+      visitTime: new Date(),
+      pageVisited: insertVisitor.pageVisited || '/'
+    };
+    this.visitors.set(id, visitor);
+    return visitor;
+  }
+
+  async getAllVisitors(): Promise<Visitor[]> {
+    return Array.from(this.visitors.values()).sort((a, b) => 
+      new Date(b.visitTime).getTime() - new Date(a.visitTime).getTime()
+    );
+  }
+
+  async deleteVisitor(id: string): Promise<void> {
+    const deleted = this.visitors.delete(id);
+    if (!deleted) {
+      throw new Error("Visitor not found");
+    }
+  }
 }
 
-export const storage = new MemStorage();
+// Database storage implementation
+import { db } from "./db";
+import { puppies, visitors } from "@shared/schema";
+import { eq } from "drizzle-orm";
+
+export class DatabaseStorage implements IStorage {
+  async getUser(id: string): Promise<any | undefined> {
+    // User management not implemented yet
+    return undefined;
+  }
+
+  async getUserByUsername(username: string): Promise<any | undefined> {
+    // User management not implemented yet
+    return undefined;
+  }
+
+  async createUser(insertUser: any): Promise<any> {
+    // User management not implemented yet
+    return insertUser;
+  }
+
+  async getAllPuppies(): Promise<Puppy[]> {
+    return await db.select().from(puppies);
+  }
+
+  async getPuppy(id: string): Promise<Puppy | undefined> {
+    const [puppy] = await db.select().from(puppies).where(eq(puppies.id, id));
+    return puppy;
+  }
+
+  async createPuppy(insertPuppy: InsertPuppy): Promise<Puppy> {
+    const [puppy] = await db.insert(puppies).values(insertPuppy).returning();
+    return puppy;
+  }
+
+  async updatePuppy(id: string, updateData: Partial<Puppy>): Promise<Puppy> {
+    const [puppy] = await db
+      .update(puppies)
+      .set(updateData)
+      .where(eq(puppies.id, id))
+      .returning();
+    if (!puppy) {
+      throw new Error("Puppy not found");
+    }
+    return puppy;
+  }
+
+  async deletePuppy(id: string): Promise<void> {
+    const result = await db.delete(puppies).where(eq(puppies.id, id));
+    if (result.rowCount === 0) {
+      throw new Error("Puppy not found");
+    }
+  }
+
+  // Visitor tracking methods
+  async createVisitor(insertVisitor: InsertVisitor): Promise<Visitor> {
+    const [visitor] = await db.insert(visitors).values(insertVisitor).returning();
+    return visitor;
+  }
+
+  async getAllVisitors(): Promise<Visitor[]> {
+    return await db.select().from(visitors).orderBy(visitors.visitTime);
+  }
+
+  async deleteVisitor(id: string): Promise<void> {
+    const result = await db.delete(visitors).where(eq(visitors.id, id));
+    if (result.rowCount === 0) {
+      throw new Error("Visitor not found");
+    }
+  }
+}
+
+export const storage = process.env.DATABASE_URL ? new DatabaseStorage() : new MemStorage();

@@ -138,12 +138,12 @@ export default function Admin() {
     setEditingPuppy(null);
   };
 
-  const handleAddPuppy = () => {
+  const openAddModal = () => {
     resetForm();
     setIsModalOpen(true);
   };
 
-  const handleEditPuppy = (puppy: Puppy) => {
+  const openEditModal = (puppy: Puppy) => {
     setEditingPuppy(puppy);
     setFormData({
       name: puppy.name,
@@ -203,187 +203,71 @@ export default function Admin() {
     }));
   };
 
-  if (isLoading && isLoadingVisitors) {
+  if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">Loading...</div>
+      <div className="min-h-screen bg-warm p-8">
+        <div className="container mx-auto">
+          <div className="text-center">Loading...</div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-warm p-8">
+      <div className="container mx-auto max-w-6xl">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">Admin Panel</h1>
-          <div className="flex gap-4">
-            <Button onClick={() => window.location.href = '/'} variant="outline">
-              Back to Website
-            </Button>
-          </div>
+          <h1 className="text-3xl font-bold text-primary">DarkDynastyK9s Admin</h1>
+          <Button onClick={openAddModal} className="bg-green-500 hover:bg-green-600">
+            <Plus className="w-4 h-4 mr-2" />
+            Add New Puppy
+          </Button>
         </div>
 
-        <Tabs defaultValue="puppies" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="puppies">Puppy Management</TabsTrigger>
-            <TabsTrigger value="visitors">Visitor Tracking</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="puppies" className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold text-gray-800">Manage Puppies</h2>
-              <Button onClick={handleAddPuppy} className="bg-green-600 hover:bg-green-700">
-                <Plus className="w-4 h-4 mr-2" />
-                Add New Puppy
-              </Button>
-            </div>
-
-            {isLoading ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {Array.from({ length: 6 }).map((_, i) => (
-                  <div key={i} className="bg-white rounded-lg shadow-md p-6 animate-pulse">
-                    <div className="h-48 bg-gray-300 rounded mb-4"></div>
-                    <div className="h-6 bg-gray-300 rounded mb-2"></div>
-                    <div className="h-4 bg-gray-300 rounded mb-4"></div>
-                    <div className="flex gap-2">
-                      <div className="h-10 bg-gray-300 rounded flex-1"></div>
-                      <div className="h-10 bg-gray-300 rounded flex-1"></div>
-                    </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {puppies?.map((puppy) => (
+            <Card key={puppy.id} className="overflow-hidden">
+              <CardHeader className="p-4">
+                <div className="flex justify-between items-start">
+                  <CardTitle className="text-lg">{puppy.name}</CardTitle>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => openEditModal(puppy)}
+                    >
+                      <Edit2 className="w-4 h-4" />
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => deleteMutation.mutate(puppy.id)}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
                   </div>
-                ))}
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {puppies?.map((puppy) => (
-                  <Card key={puppy.id} className="overflow-hidden">
-                    <div className="relative h-48">
-                      <img
-                        src={puppy.images[0]}
-                        alt={puppy.name}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded text-sm">
-                        ${puppy.price.toLocaleString()}
-                      </div>
-                    </div>
-                    <CardContent className="p-4">
-                      <h3 className="font-semibold text-lg mb-2">{puppy.name}</h3>
-                      <p className="text-gray-600 mb-2">{puppy.breed}</p>
-                      <p className="text-sm text-gray-500 mb-4">
-                        {puppy.age} • {puppy.weight} • {puppy.gender}
-                      </p>
-                      <div className="flex gap-2">
-                        <Button
-                          onClick={() => handleEditPuppy(puppy)}
-                          variant="outline"
-                          size="sm"
-                          className="flex-1"
-                        >
-                          <Edit2 className="w-4 h-4 mr-1" />
-                          Edit
-                        </Button>
-                        <Button
-                          onClick={() => deleteMutation.mutate(puppy.id)}
-                          variant="destructive"
-                          size="sm"
-                          className="flex-1"
-                          disabled={deleteMutation.isPending}
-                        >
-                          <Trash2 className="w-4 h-4 mr-1" />
-                          Delete
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            )}
-          </TabsContent>
-
-          <TabsContent value="visitors" className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold text-gray-800">Visitor Tracking</h2>
-              <div className="text-sm text-gray-600">
-                Total Visitors: {visitors?.length || 0}
-              </div>
-            </div>
-
-            {isLoadingVisitors ? (
-              <div className="bg-white rounded-lg shadow-md p-6 animate-pulse">
-                <div className="space-y-4">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <div key={i} className="h-16 bg-gray-300 rounded"></div>
-                  ))}
                 </div>
-              </div>
-            ) : (
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Eye className="w-5 h-5" />
-                    Website Visitors
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {visitors?.length === 0 ? (
-                    <div className="text-center py-8 text-gray-500">
-                      No visitors tracked yet.
-                    </div>
-                  ) : (
-                    <div className="space-y-4">
-                      {visitors?.map((visitor) => (
-                        <div key={visitor.id} className="border rounded-lg p-4 hover:bg-gray-50">
-                          <div className="flex justify-between items-start">
-                            <div className="space-y-2">
-                              <div className="flex items-center gap-4 text-sm">
-                                <div className="flex items-center gap-1">
-                                  <MapPin className="w-4 h-4 text-gray-500" />
-                                  <span className="font-medium">IP:</span> {visitor.ipAddress}
-                                </div>
-                                {visitor.country && (
-                                  <div className="flex items-center gap-1">
-                                    <span className="font-medium">Location:</span> {visitor.city}, {visitor.country}
-                                  </div>
-                                )}
-                              </div>
-                              <div className="flex items-center gap-4 text-sm text-gray-600">
-                                <div className="flex items-center gap-1">
-                                  <Calendar className="w-4 h-4" />
-                                  <span>Visited:</span> {new Date(visitor.visitTime).toLocaleString()}
-                                </div>
-                                <div className="flex items-center gap-1">
-                                  <span>Page:</span> {visitor.pageVisited}
-                                </div>
-                              </div>
-                              {visitor.userAgent && (
-                                <div className="flex items-center gap-1 text-xs text-gray-500">
-                                  <Monitor className="w-3 h-3" />
-                                  <span>Device:</span>
-                                  <span className="truncate max-w-md">{visitor.userAgent}</span>
-                                </div>
-                              )}
-                            </div>
-                            <Button
-                              onClick={() => deleteVisitorMutation.mutate(visitor.id)}
-                              variant="destructive"
-                              size="sm"
-                              disabled={deleteVisitorMutation.isPending}
-                              data-testid={`button-delete-visitor-${visitor.id}`}
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </Button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            )}
-          </TabsContent>
-        </Tabs>
+              </CardHeader>
+              <CardContent className="p-4">
+                {puppy.images.length > 0 && (
+                  <img
+                    src={puppy.images[0]}
+                    alt={puppy.name}
+                    className="w-full h-32 object-cover rounded mb-3"
+                  />
+                )}
+                <div className="space-y-1 text-sm">
+                  <p><strong>Breed:</strong> {puppy.breed}</p>
+                  <p><strong>Age:</strong> {puppy.age}</p>
+                  <p><strong>Price:</strong> ${puppy.price.toLocaleString()}</p>
+                  <p><strong>Images:</strong> {puppy.images.length}</p>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
 
-        {/* Add/Edit Puppy Modal */}
+        {/* Add/Edit Modal */}
         <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
           <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>

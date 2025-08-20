@@ -1,9 +1,50 @@
-import type { Express } from "express";
+import type { Express, Request } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertPuppySchema } from "@shared/schema";
+import { insertPuppySchema, insertVisitorSchema } from "@shared/schema";
+
+// Helper function to get visitor info
+const getVisitorInfo = (req: Request) => {
+  const ip = req.ip || req.connection.remoteAddress || req.headers['x-forwarded-for'] as string || 'Unknown';
+  const userAgent = req.get('User-Agent') || null;
+  return { ip, userAgent };
+};
+
+// Helper function to get location from IP (simplified)
+const getLocationFromIP = async (ip: string) => {
+  try {
+    // Using a free IP geolocation service
+    const response = await fetch(`http://ip-api.com/json/${ip}`);
+    const data = await response.json();
+    return {
+      country: data.country || null,
+      city: data.city || null
+    };
+  } catch (error) {
+    return { country: null, city: null };
+  }
+};
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Track visitor middleware
+  app.use(async (req, res, next) => {
+    try {
+      const { ip, userAgent } = getVisitorInfo(req);
+      const { country, city } = await getLocationFromIP(ip);
+      
+      await storage.createVisitor({
+        ipAddress: ip,
+        userAgent,
+        country,
+        city,
+        pageVisited: req.path,
+      });
+    } catch (error) {
+      console.error('Error tracking visitor:', error);
+    }
+    next();
+  });
+
   // Get all puppies
   app.get("/api/puppies", async (req, res) => {
     try {
@@ -76,6 +117,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({ message: "Inquiry submitted successfully" });
     } catch (error) {
       res.status(500).json({ message: "Failed to submit inquiry" });
+    }
+  });
+
+  // Get all visitors (admin only)
+  app.get("/api/visitors", async (req, res) => {
+    try {
+      const visitors = await storage.getAllVisitors();
+      res.json(visitors);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch visitors" });
+    }
+  });
+
+  // Delete visitor (admin only)
+  app.delete("/api/visitors/:id", async (req, res) => {
+    try {
+      await storage.deleteVisitor(req.params.id);
+      res.status(204).send();
+    } catch (error) {
+      if (error instanceof Error && error.message === "Visitor not found") {
+        return res.status(404).json({ message: "Visitor not found" });
+      }
+      res.status(500).json({ message: "Failed to delete visitor" });
     }
   });
 
